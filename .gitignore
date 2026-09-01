@@ -1,0 +1,60 @@
+# ==============================================================================
+# OpenShift Skills Repository - Git Ignore Rules
+# ==============================================================================
+
+# Credentials, secrets, and password stores (CRITICAL)
+*.local.yaml
+*.local.yml
+*.local.json
+credentials.local.*
+passwords.local.*
+secrets.local.*
+.env
+.env.local
+.env.*.local
+*.secret
+*.key
+*.pem
+*.pfx
+*.p12
+
+# Explicitly ignore local credentials store in .gemini/config
+.gemini/config/credentials.local.yaml
+.gemini/config/passwords.local.yaml
+.gemini/config/secrets/
+.agents/config/credentials.local.yaml
+
+# Kubernetes / OpenShift authentication caches and local kubeconfigs
+*.kubeconfig
+kubeconfig*
+.kube/
+*.token
+*.idtoken
+
+# Diagnostic dumps, backups & log files generated during triage
+*.dump
+*.tar.gz
+*.must-gather/
+must-gather*/
+diagnostic-reports/
+chat-artifacts/
+temp/
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.bak
+
+# Python artifacts if python scripts or virtual environments are used
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+

@@ -1,0 +1,72 @@
+# ==============================================================================
+# OpenShift Multi-Environment Cluster Inventory
+# ==============================================================================
+# Unified cluster catalog storing API endpoints, console URLs, and environment
+# mappings directly under cluster_aliases.
+
+schema_version: "v1.0"
+default_environment: "dev"
+
+cluster_aliases:
+  ocp-dev-01:
+    env: "dev"
+    api_url: "https://api.ocp-dev-01.dev.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-dev-01.dev.example.internal"
+    region: "ap-southeast-1"
+    platform: "AWS"
+    version: "4.16.8"
+    auth_method: "htpasswd"
+
+  ocp-dev-02:
+    env: "dev"
+    api_url: "https://api.ocp-dev-02.dev.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-dev-02.dev.example.internal"
+    region: "on-prem-dc1"
+    platform: "Baremetal"
+    version: "4.16.8"
+    auth_method: "ldap"
+
+  ocp-stg-01:
+    env: "staging"
+    api_url: "https://api.ocp-stg-01.stg.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-stg-01.stg.example.internal"
+    region: "ap-southeast-1"
+    platform: "AWS"
+    version: "4.16.8"
+    auth_method: "oidc"
+
+  ocp-stg-02:
+    env: "staging"
+    api_url: "https://api.ocp-stg-02.stg.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-stg-02.stg.example.internal"
+    region: "on-prem-dc1"
+    platform: "VMware vSphere"
+    version: "4.16.8"
+    auth_method: "ldap"
+
+  ocp-prd-01:
+    env: "prod"
+    api_url: "https://api.ocp-prd-01.prod.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-prd-01.prod.example.internal"
+    region: "ap-southeast-1"
+    platform: "AWS"
+    version: "4.16.8"
+    auth_method: "oidc"
+
+  ocp-prd-02:
+    env: "prod"
+    api_url: "https://api.ocp-prd-02.prod.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-prd-02.prod.example.internal"
+    region: "on-prem-dc1"
+    platform: "Baremetal"
+    version: "4.16.8"
+    auth_method: "ldap"
+
+  ocp-dr-01:
+    env: "dr"
+    api_url: "https://api.ocp-dr-01.dr.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-dr-01.dr.example.internal"
+    region: "ap-southeast-2"
+    platform: "AWS"
+    version: "4.16.8"
+    auth_method: "oidc"
