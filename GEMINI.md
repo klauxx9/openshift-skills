@@ -59,6 +59,9 @@ Never assume the CLI is pointing to the intended environment. Confirm environmen
 - **Adhoc Multi-Cluster ETCD Backups**: When the user asks to perform etcd backups (e.g. *"perform etcd backup on all dev clusters"*, *"take etcd backup on staging"*):
   1. Trigger the `ocp-backup-restore` backup runner script: `./.gemini/skills/ocp-backup-restore/scripts/backup_etcd.sh --env <env>`.
   2. Synthesize and report the backup status, snapshot file locations, and verification hashes across all audited clusters.
+- **ETCD Defragmentation & Health Assessment**: When the user asks to check or defrag etcd (e.g. *"defrag etcd on ocp-prd-01"*, *"check etcd fragmentation on dev clusters"*, *"perform etcd defragmentation on all staging clusters"*):
+  1. For inspection/read-only requests: Execute `./.gemini/skills/ocp-etcd-defrag/scripts/defrag_etcd.sh --env <env> --check-only`.
+  2. For active defragmentation requests: Present mutation approval card (target cluster, leader vs follower order, blast radius), and upon approval execute `./.gemini/skills/ocp-etcd-defrag/scripts/defrag_etcd.sh --env <env>`.
 - **Resource and CRD Extraction**: When the user asks to extract/get resources or CRDs across clusters (e.g. *"get clusterlogforwarder from all dev clusters"*, *"export ingresscontroller from prod"*):
   1. Trigger the `ocp-resource-extractor` script: `./.gemini/skills/ocp-resource-extractor/scripts/export_resources.sh --env <env> <resource> [name] [-n ns]`.
   2. Confirm exported YAML files in `chat-artifacts/<resource-name>-<cluster-name>.yaml`.
