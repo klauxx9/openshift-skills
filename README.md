@@ -95,21 +95,29 @@ Supported authentication methods in `credentials.local.yaml`:
 - **`token`**: OpenShift ServiceAccount API bearer token (`sha256~...`).
 - **`kubeconfig`**: Path to an isolated kubeconfig file per cluster.
 
+### Dynamic Credential Mapping (`<env>-<platform>-<flavour>`)
+Credentials are dynamically resolved using the cluster's profile:
+1. `clusters.yaml` defines: `env` (`dev|uat|prod`), `platform` (`gcp|on-prem`), `flavour` (`acm-hub|managed-cluster`).
+2. The dynamic lookup key is constructed: `<env>-<platform>-<flavour>` (e.g. `dev-gcp-managed-cluster`, `prod-on-prem-acm-hub`).
+3. Clusters sharing the same profile automatically inherit the exact same password and username!
+
 ---
 
 ## 🌐 Cluster Inventory Structure
 
-All clusters, environments, API endpoints, and Console URLs are defined directly in [`.gemini/config/clusters.yaml`](file:///Users/khairihabidin/GitRepository/openshift-skills/.gemini/config/clusters.yaml) under `cluster_aliases`:
+All clusters are defined in [`.gemini/config/clusters.yaml`](file:///Users/khairihabidin/GitRepository/openshift-skills/.gemini/config/clusters.yaml) with strictly the essential operational keys:
 
-| Environment | Cluster Alias | Region | Platform | OpenShift Version |
+| Environment | Cluster Alias | Platform | Flavour | API URL |
 | :--- | :--- | :--- | :--- | :--- |
-| **DEV** | `ocp-dev-01` | `ap-southeast-1` | AWS | `4.16.8` |
-| **DEV** | `ocp-dev-02` | `on-prem-dc1` | Baremetal | `4.16.8` |
-| **STAGING** | `ocp-stg-01` | `ap-southeast-1` | AWS | `4.16.8` |
-| **STAGING** | `ocp-stg-02` | `on-prem-dc1` | VMware vSphere | `4.16.8` |
-| **PROD** | `ocp-prd-01` | `ap-southeast-1` | AWS (Multi-AZ) | `4.16.8` |
-| **PROD** | `ocp-prd-02` | `on-prem-dc1` | Baremetal (ODF) | `4.16.8` |
-| **DR** | `ocp-dr-01` | `ap-southeast-2` | AWS | `4.16.8` |
+| **DEV** | `ocp-dev-hub` | `gcp` | `acm-hub` | `https://api.ocp-dev-hub.gcp.dev...:6443` |
+| **DEV** | `ocp-dev-01` | `gcp` | `managed-cluster` | `https://api.ocp-dev-01.gcp.dev...:6443` |
+| **DEV** | `ocp-dev-02` | `on-prem` | `managed-cluster` | `https://api.ocp-dev-02.onprem.dev...:6443` |
+| **UAT** | `ocp-uat-hub` | `gcp` | `acm-hub` | `https://api.ocp-uat-hub.gcp.uat...:6443` |
+| **UAT** | `ocp-uat-01` | `gcp` | `managed-cluster` | `https://api.ocp-uat-01.gcp.uat...:6443` |
+| **UAT** | `ocp-uat-02` | `on-prem` | `managed-cluster` | `https://api.ocp-uat-02.onprem.uat...:6443` |
+| **PROD** | `ocp-prd-hub` | `gcp` | `acm-hub` | `https://api.ocp-prd-hub.gcp.prod...:6443` |
+| **PROD** | `ocp-prd-01` | `gcp` | `managed-cluster` | `https://api.ocp-prd-01.gcp.prod...:6443` |
+| **PROD** | `ocp-prd-02` | `on-prem` | `managed-cluster` | `https://api.ocp-prd-02.onprem.prod...:6443` |
 
 ---
 

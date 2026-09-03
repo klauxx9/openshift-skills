@@ -16,23 +16,23 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 CONFIG_DIR="${BASE_DIR}/.gemini/config"
-CREDS_FILE="${CONFIG_DIR}/credentials.local.yaml"
+PARSER_SCRIPT="${SCRIPT_DIR}/parse_inventory.sh"
 
 source "${SCRIPT_DIR}/utils.sh"
 
 list_available_clusters() {
     printf "${C_BOLD}Available OpenShift Clusters by Environment:${C_RESET}\n"
-    python3 "${SCRIPT_DIR}/parse_inventory.py" "${CONFIG_DIR}" list
+    "$PARSER_SCRIPT" "${CONFIG_DIR}" list
 }
 
 lookup_cluster_info() {
     local target="$1"
-    python3 "${SCRIPT_DIR}/parse_inventory.py" "${CONFIG_DIR}" get-cluster "$target"
+    "$PARSER_SCRIPT" "${CONFIG_DIR}" get-cluster "$target"
 }
 
 lookup_credentials() {
     local cluster_id="$1"
-    python3 "${SCRIPT_DIR}/parse_inventory.py" "${CONFIG_DIR}" get-credentials "$cluster_id"
+    "$PARSER_SCRIPT" "${CONFIG_DIR}" get-credentials "$cluster_id"
 }
 
 main() {

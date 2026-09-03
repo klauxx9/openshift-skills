@@ -50,7 +50,7 @@ Never assume the CLI is pointing to the intended environment. Confirm environmen
 
 ### Natural Language Operations (L1 Conversational Workflows)
 - **Natural Language Login**: When the user asks to login/switch clusters (e.g. *"login to dev cluster 1"*, *"connect to staging"*):
-  1. Map the request to a cluster alias using fuzzy resolution (`parse_inventory.py get-cluster`).
+  1. Map the request to a cluster alias using fuzzy resolution (`parse_inventory.sh get-cluster`).
   2. Execute `./.gemini/scripts/oc-login.sh <cluster_id>`.
   3. Confirm the active server endpoint and project without exposing credentials.
 - **Environment-Wide Multi-Cluster Healthchecks**: When the user asks for status of all clusters in an environment (e.g. *"check all status of dev clusters"*, *"audit prod environment"*):

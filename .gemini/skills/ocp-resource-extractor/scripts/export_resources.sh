@@ -21,7 +21,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 CONFIG_DIR="${BASE_DIR}/.gemini/config"
 LOGIN_SCRIPT="${BASE_DIR}/.gemini/scripts/oc-login.sh"
-PARSER_SCRIPT="${BASE_DIR}/.gemini/scripts/parse_inventory.py"
+PARSER_SCRIPT="${BASE_DIR}/.gemini/scripts/parse_inventory.sh"
 CHAT_ARTIFACTS_DIR="${BASE_DIR}/chat-artifacts"
 
 source "${BASE_DIR}/.gemini/scripts/utils.sh"
@@ -32,7 +32,7 @@ mkdir -p "$CHAT_ARTIFACTS_DIR"
 
 if [ "$#" -lt 2 ]; then
     log_error "Insufficient arguments."
-    echo "Usage: $0 [--env <dev|staging|prod|dr|all> | <cluster_id>] <resource_type> [resource_name] [-n <namespace>]"
+    echo "Usage: $0 [--env <dev|staging|uat|prod|all> | <cluster_id>] <resource_type> [resource_name] [-n <namespace>]"
     exit 1
 fi
 
@@ -69,8 +69,8 @@ while [ "$#" -gt 0 ]; do
 done
 
 # Resolve clusters
-if [ "$TARGET_MODE" = "env" ] || [ "$TARGET_VAL" = "dev" ] || [ "$TARGET_VAL" = "staging" ] || [ "$TARGET_VAL" = "prod" ] || [ "$TARGET_VAL" = "dr" ] || [ "$TARGET_VAL" = "all" ]; then
-    CLUSTERS_RAW=$(python3 "$PARSER_SCRIPT" "$CONFIG_DIR" get-env-clusters "$TARGET_VAL" 2>/dev/null || true)
+if [ "$TARGET_MODE" = "env" ] || [ "$TARGET_VAL" = "dev" ] || [ "$TARGET_VAL" = "staging" ] || [ "$TARGET_VAL" = "uat" ] || [ "$TARGET_VAL" = "prod" ] || [ "$TARGET_VAL" = "all" ]; then
+    CLUSTERS_RAW=$("$PARSER_SCRIPT" "$CONFIG_DIR" get-env-clusters "$TARGET_VAL" 2>/dev/null || true)
     if [ -n "$CLUSTERS_RAW" ]; then
         read -r -a CLUSTERS <<< "$CLUSTERS_RAW"
     else
@@ -78,8 +78,8 @@ if [ "$TARGET_MODE" = "env" ] || [ "$TARGET_VAL" = "dev" ] || [ "$TARGET_VAL" = 
     fi
 else
     # Single cluster lookup
-    if single_cluster=$(python3 "$PARSER_SCRIPT" "$CONFIG_DIR" get-cluster "$TARGET_VAL" 2>/dev/null); then
-        IFS='|' read -r c_id c_api c_auth c_env <<< "$single_cluster"
+    if single_cluster=$("$PARSER_SCRIPT" "$CONFIG_DIR" get-cluster "$TARGET_VAL" 2>/dev/null); then
+        IFS='|' read -r c_id c_api c_flav c_env c_plat <<< "$single_cluster"
         CLUSTERS=("$c_id")
     else
         CLUSTERS=("$TARGET_VAL")

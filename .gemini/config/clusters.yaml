@@ -1,72 +1,88 @@
 # ==============================================================================
 # OpenShift Multi-Environment Cluster Inventory
 # ==============================================================================
-# Unified cluster catalog storing API endpoints, console URLs, and environment
-# mappings directly under cluster_aliases.
+# Schema per cluster:
+#   env: "dev | uat | prod"
+#   platform: "gcp | on-prem"
+#   flavour: "acm-hub | managed-cluster"
+#   api_url: <string>
+#   console_url: <string>
+#
+# Rule: ACM Hub clusters are deployed exclusively on GCP.
+# ==============================================================================
 
 schema_version: "v1.0"
 default_environment: "dev"
 
 cluster_aliases:
+  # ----------------------------------------------------------------------------
+  # DEVELOPMENT (DEV)
+  # ----------------------------------------------------------------------------
+  ocp-dev-hub:
+    env: "dev"
+    platform: "gcp"
+    flavour: "acm-hub"
+    api_url: "https://api.ocp-dev-hub.gcp.dev.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-dev-hub.gcp.dev.example.internal"
+
   ocp-dev-01:
     env: "dev"
-    api_url: "https://api.ocp-dev-01.dev.example.internal:6443"
-    console_url: "https://console-openshift-console.apps.ocp-dev-01.dev.example.internal"
-    region: "ap-southeast-1"
-    platform: "AWS"
-    version: "4.16.8"
-    auth_method: "htpasswd"
+    platform: "gcp"
+    flavour: "managed-cluster"
+    api_url: "https://api.ocp-dev-01.gcp.dev.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-dev-01.gcp.dev.example.internal"
 
   ocp-dev-02:
     env: "dev"
-    api_url: "https://api.ocp-dev-02.dev.example.internal:6443"
-    console_url: "https://console-openshift-console.apps.ocp-dev-02.dev.example.internal"
-    region: "on-prem-dc1"
-    platform: "Baremetal"
-    version: "4.16.8"
-    auth_method: "ldap"
+    platform: "on-prem"
+    flavour: "managed-cluster"
+    api_url: "https://api.ocp-dev-02.onprem.dev.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-dev-02.onprem.dev.example.internal"
 
-  ocp-stg-01:
-    env: "staging"
-    api_url: "https://api.ocp-stg-01.stg.example.internal:6443"
-    console_url: "https://console-openshift-console.apps.ocp-stg-01.stg.example.internal"
-    region: "ap-southeast-1"
-    platform: "AWS"
-    version: "4.16.8"
-    auth_method: "oidc"
+  # ----------------------------------------------------------------------------
+  # USER ACCEPTANCE TESTING (UAT)
+  # ----------------------------------------------------------------------------
+  ocp-uat-hub:
+    env: "uat"
+    platform: "gcp"
+    flavour: "acm-hub"
+    api_url: "https://api.ocp-uat-hub.gcp.uat.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-uat-hub.gcp.uat.example.internal"
 
-  ocp-stg-02:
-    env: "staging"
-    api_url: "https://api.ocp-stg-02.stg.example.internal:6443"
-    console_url: "https://console-openshift-console.apps.ocp-stg-02.stg.example.internal"
-    region: "on-prem-dc1"
-    platform: "VMware vSphere"
-    version: "4.16.8"
-    auth_method: "ldap"
+  ocp-uat-01:
+    env: "uat"
+    platform: "gcp"
+    flavour: "managed-cluster"
+    api_url: "https://api.ocp-uat-01.gcp.uat.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-uat-01.gcp.uat.example.internal"
+
+  ocp-uat-02:
+    env: "uat"
+    platform: "on-prem"
+    flavour: "managed-cluster"
+    api_url: "https://api.ocp-uat-02.onprem.uat.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-uat-02.onprem.uat.example.internal"
+
+  # ----------------------------------------------------------------------------
+  # PRODUCTION (PROD)
+  # ----------------------------------------------------------------------------
+  ocp-prd-hub:
+    env: "prod"
+    platform: "gcp"
+    flavour: "acm-hub"
+    api_url: "https://api.ocp-prd-hub.gcp.prod.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-prd-hub.gcp.prod.example.internal"
 
   ocp-prd-01:
     env: "prod"
-    api_url: "https://api.ocp-prd-01.prod.example.internal:6443"
-    console_url: "https://console-openshift-console.apps.ocp-prd-01.prod.example.internal"
-    region: "ap-southeast-1"
-    platform: "AWS"
-    version: "4.16.8"
-    auth_method: "oidc"
+    platform: "gcp"
+    flavour: "managed-cluster"
+    api_url: "https://api.ocp-prd-01.gcp.prod.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-prd-01.gcp.prod.example.internal"
 
   ocp-prd-02:
     env: "prod"
-    api_url: "https://api.ocp-prd-02.prod.example.internal:6443"
-    console_url: "https://console-openshift-console.apps.ocp-prd-02.prod.example.internal"
-    region: "on-prem-dc1"
-    platform: "Baremetal"
-    version: "4.16.8"
-    auth_method: "ldap"
-
-  ocp-dr-01:
-    env: "dr"
-    api_url: "https://api.ocp-dr-01.dr.example.internal:6443"
-    console_url: "https://console-openshift-console.apps.ocp-dr-01.dr.example.internal"
-    region: "ap-southeast-2"
-    platform: "AWS"
-    version: "4.16.8"
-    auth_method: "oidc"
+    platform: "on-prem"
+    flavour: "managed-cluster"
+    api_url: "https://api.ocp-prd-02.onprem.prod.example.internal:6443"
+    console_url: "https://console-openshift-console.apps.ocp-prd-02.onprem.prod.example.internal"

@@ -20,7 +20,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 CONFIG_DIR="${BASE_DIR}/.gemini/config"
 LOGIN_SCRIPT="${BASE_DIR}/.gemini/scripts/oc-login.sh"
-PARSER_SCRIPT="${BASE_DIR}/.gemini/scripts/parse_inventory.py"
+PARSER_SCRIPT="${BASE_DIR}/.gemini/scripts/parse_inventory.sh"
 
 source "${BASE_DIR}/.gemini/scripts/utils.sh"
 
@@ -28,8 +28,8 @@ check_oc_installed
 
 TARGET_ENV="${1:-dev}"
 
-log_info "Discovering clusters for environment: ${C_BOLD}${TARGET_ENV^^}${C_RESET}..."
-CLUSTERS_RAW=$(python3 "$PARSER_SCRIPT" "$CONFIG_DIR" get-env-clusters "$TARGET_ENV")
+log_info "Discovering clusters for environment: ${C_BOLD}${TARGET_ENV}${C_RESET}..."
+CLUSTERS_RAW=$("$PARSER_SCRIPT" "$CONFIG_DIR" get-env-clusters "$TARGET_ENV")
 
 if [ -z "$CLUSTERS_RAW" ]; then
     log_error "No clusters found for environment '$TARGET_ENV'."

@@ -21,7 +21,7 @@ class TestSkillsMetadata(unittest.TestCase):
         ]
 
     def test_skills_count(self):
-        """Verify that all 9 core L1 skills exist."""
+        """Verify that all 10 core L1 skills exist."""
         expected_skills = [
             'ocp-cluster-health',
             'ocp-pod-diagnostics',
@@ -31,7 +31,8 @@ class TestSkillsMetadata(unittest.TestCase):
             'ocp-workload-ops',
             'ocp-auth-navigator',
             'ocp-backup-restore',
-            'ocp-resource-extractor'
+            'ocp-resource-extractor',
+            'ocp-etcd-defrag'
         ]
         for skill in expected_skills:
             self.assertIn(skill, self.skill_folders, f"Skill '{skill}' missing from .gemini/skills/")

@@ -20,7 +20,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$(cd "${SCRIPT_DIR}/../../.." && pwd)"
 CONFIG_DIR="${BASE_DIR}/.gemini/config"
 LOGIN_SCRIPT="${BASE_DIR}/.gemini/scripts/oc-login.sh"
-PARSER_SCRIPT="${BASE_DIR}/.gemini/scripts/parse_inventory.py"
+PARSER_SCRIPT="${BASE_DIR}/.gemini/scripts/parse_inventory.sh"
 
 source "${BASE_DIR}/.gemini/scripts/utils.sh"
 
@@ -32,12 +32,12 @@ if [ "$TARGET" = "--env" ] || [ "$TARGET" = "-e" ]; then
 fi
 
 # Determine if target is a single cluster or an environment
-CLUSTERS_RAW=$(python3 "$PARSER_SCRIPT" "$CONFIG_DIR" get-env-clusters "$TARGET" 2>/dev/null || true)
+CLUSTERS_RAW=$("$PARSER_SCRIPT" "$CONFIG_DIR" get-env-clusters "$TARGET" 2>/dev/null || true)
 
 if [ -z "$CLUSTERS_RAW" ]; then
     # Fallback to single cluster lookup
-    if single_cluster=$(python3 "$PARSER_SCRIPT" "$CONFIG_DIR" get-cluster "$TARGET" 2>/dev/null); then
-        IFS='|' read -r c_id c_api c_auth c_env <<< "$single_cluster"
+    if single_cluster=$("$PARSER_SCRIPT" "$CONFIG_DIR" get-cluster "$TARGET" 2>/dev/null); then
+        IFS='|' read -r c_id c_api c_flav c_env c_plat <<< "$single_cluster"
         CLUSTERS=("$c_id")
     else
         log_error "Cluster or environment '$TARGET' not found in inventory."
